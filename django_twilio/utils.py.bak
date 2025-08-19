@@ -1,5 +1,3 @@
-from .compat import force_str as force_text, smart_str as smart_text, _ as _, _lazy
-
 # -*- coding: utf-8 -*-
 
 from twilio.twiml.messaging_response import Message
