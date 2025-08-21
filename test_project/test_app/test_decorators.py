@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.test import Client, TestCase
 from django.test.utils import override_settings
 from django_dynamic_fixture import G
-from twilio.twiml.messaging_response import Message
+from twilio.twiml.messaging_response import Message, MessagingResponse
 from twilio.twiml.voice_response import VoiceResponse
 
 from django_twilio.models import Caller
@@ -178,7 +178,8 @@ class TwilioViewTestCase(TestCase):
         with override_settings(DEBUG=False):
             request = self.factory.post(self.str_uri, {'From': str(self.blocked_caller.phone_number)})
             response = str_view(request)
-            r = Message()
+            r = MessagingResponse()
+            r.message("")
             self.assertEqual(
                 response.content,
                 str(r).encode('utf-8'),
@@ -186,7 +187,8 @@ class TwilioViewTestCase(TestCase):
         with override_settings(DEBUG=True):
             request = self.factory.post(self.str_uri, {'From': str(self.blocked_caller.phone_number)})
             response = str_view(request)
-            r = Message()
+            r = MessagingResponse()
+            r.message("")
             self.assertEqual(
                 response.content,
                 str(r).encode('utf-8'),
@@ -216,7 +218,8 @@ class TwilioViewTestCase(TestCase):
         with override_settings(DEBUG=False):
             request = self.factory.post(self.str_class_uri, {'From': str(self.blocked_caller.phone_number)})
             response = StrView.as_view()(request)
-            r = Message()
+            r = MessagingResponse()
+            r.message("")
             self.assertEqual(
                 response.content,
                 str(r).encode('utf-8'),
@@ -224,7 +227,8 @@ class TwilioViewTestCase(TestCase):
         with override_settings(DEBUG=True):
             request = self.factory.post(self.str_class_uri, {'From': str(self.blocked_caller.phone_number)})
             response = StrView.as_view()(request)
-            r = Message()
+            r = MessagingResponse()
+            r.message("")
             self.assertEqual(
                 response.content,
                 str(r).encode('utf-8'),
