@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from .client import *
-from .decorators import *
-from .models import *
-from .views import *
-from .request import *
+from .test_client import *
+from .test_decorators import *
+from .test_models import *
+from .test_views import *
+from .test_request import *

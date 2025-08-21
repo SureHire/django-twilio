@@ -13,8 +13,8 @@ from twilio.twiml.voice_response import VoiceResponse
 
 from django_twilio.models import Caller
 from django_twilio.utils import discover_twilio_credentials
-from .utils import TwilioRequestFactory
-from .views import (response_view, str_view, bytes_view, verb_view,
+from .test_utils import TwilioRequestFactory
+from .test_views import (response_view, str_view, bytes_view, verb_view,
                     BytesView, StrView, VerbView, ResponseView)
 
 

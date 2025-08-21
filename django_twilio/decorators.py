@@ -21,3 +21,5 @@ def twilio_signed(view_func):
             return HttpResponseForbidden("Invalid Twilio signature.")
         return view_func(request, *args, **kwargs)
     return _wrapped
+
+twilio_view = twilio_signed
