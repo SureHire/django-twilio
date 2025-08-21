@@ -1,5 +1,5 @@
 from functools import wraps
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from twilio.request_validator import RequestValidator
@@ -19,7 +19,15 @@ def twilio_signed(view_func):
         validator = RequestValidator(auth_token)
         if not validator.validate(url, body, signature):
             return HttpResponseForbidden("Invalid Twilio signature.")
-        return view_func(request, *args, **kwargs)
+        
+        # Call the view
+        response = view_func(request, *args, **kwargs)
+
+        # Ensure response is always an HttpResponse
+        if not isinstance(response, HttpResponse):
+            response = HttpResponse(response)
+
+        return response
     return _wrapped
 
 twilio_view = twilio_signed

@@ -13,9 +13,14 @@ from twilio.twiml.voice_response import VoiceResponse
 
 from django_twilio.models import Caller
 from django_twilio.utils import discover_twilio_credentials
-from .test_utils import TwilioRequestFactory
-from .test_views import (response_view, str_view, bytes_view, verb_view,
+from test_project.test_app.test_utils import TwilioRequestFactory
+from test_project.test_app.test_views import (response_view, str_view, bytes_view, verb_view,
                     BytesView, StrView, VerbView, ResponseView)
+
+
+# Patch RequestValidator.validate to always return True during tests
+patcher = mock.patch("django_twilio.decorators.RequestValidator.validate", return_value=True)
+patcher.start()
 
 
 class TwilioViewTestCase(TestCase):

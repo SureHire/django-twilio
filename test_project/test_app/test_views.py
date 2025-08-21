@@ -13,7 +13,7 @@ from django_twilio.views import (
     conference, dial, gather, play, record, say, sms, message
     )
 
-from .test_utils import TwilioRequestFactory
+from test_project.test_app.test_utils import TwilioRequestFactory
 
 
 @twilio_view
