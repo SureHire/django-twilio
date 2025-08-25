@@ -79,7 +79,10 @@ def bytes_view(request):
     """
     A simple test view that returns ASCII bytes.
     """
-    return b'<Response><Message>Hi!</Message></Response>'
+    return HttpResponse(
+        b'<Response><Message>Hi!</Message></Response>',
+        content_type='text/xml'
+    )
 
 
 class BytesView(View):
@@ -89,10 +92,16 @@ class BytesView(View):
         return super(BytesView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        return b'<Response><Message>Hi!</Message></Response>'
+        return HttpResponse(
+            b'<Response><Message>Hi!</Message></Response>',
+            content_type='text/xml'
+        )
 
     def post(self, request):
-        return b'<Response><Message>Hi!</Message></Response>'
+        return HttpResponse(
+            b'<Response><Message>Hi!</Message></Response>',
+            content_type='text/xml'
+        )
 
 
 @twilio_view
@@ -102,7 +111,7 @@ def verb_view(request):
     """
     r = VoiceResponse()
     r.reject()
-    return r
+    return HttpResponse(str(r), content_type="text/xml")
 
 
 class VerbView(View):
@@ -114,12 +123,12 @@ class VerbView(View):
     def get(self, request):
         r = VoiceResponse()
         r.reject()
-        return r
+        return HttpResponse(str(r), content_type="text/xml")
 
     def post(self, request):
         r = VoiceResponse()
         r.reject()
-        return r
+        return HttpResponse(str(r), content_type="text/xml")
 
 
 class SayTestCase(TestCase):

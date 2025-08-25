@@ -85,7 +85,8 @@ def get_blacklisted_response(request):
                 # SMS does not allow to selectively reject SMS.
                 # So, we respond with nothing, and twilio does not forward
                 # the message back to the sender.
-                r = Message()
+                r = MessagingResponse()
+                r.message("") 
             return HttpResponse(str(r), content_type='application/xml')
     except Exception:
         pass

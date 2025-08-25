@@ -5,6 +5,8 @@ from twilio.twiml.messaging_response import MessagingResponse
 
 from .decorators import twilio_view
 
+from django.http import HttpResponse
+
 
 @twilio_view
 def say(request, text, voice=None, language=None, loop=None):
@@ -112,7 +114,7 @@ def sms(request, message, to=None, sender=None, action=None, method='POST',
     r = MessagingResponse()
     r.message(message, to=to, sender=sender, method='POST', action=action,
               statusCallback=status_callback)
-    return r
+    return HttpResponse(str(r), content_type='application/xml')
 
 
 @twilio_view
@@ -139,7 +141,7 @@ def message(request, message, to=None, sender=None, action=None,
               action=action, statusCallback=status_callback,
               media=media)
 
-    return r
+    return HttpResponse(str(r), content_type='application/xml')
 
 
 @twilio_view
