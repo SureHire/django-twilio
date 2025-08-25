@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from . import views
+from . import test_views as views
 
 # Test URLs for our ``django_twilio.decorators`` module.
 urlpatterns = [

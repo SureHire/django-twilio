@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.http import HttpResponse
 from django.test import TestCase
+from twilio.twiml.messaging_response import MessagingResponse
 from twilio.twiml.voice_response import VoiceResponse
 
 from django_twilio.decorators import twilio_view
@@ -13,7 +14,7 @@ from django_twilio.views import (
     conference, dial, gather, play, record, say, sms, message
     )
 
-from .utils import TwilioRequestFactory
+from test_project.test_app.test_utils import TwilioRequestFactory
 
 
 @twilio_view
@@ -51,7 +52,9 @@ def str_view(request):
     """
     A simple test view that returns a string.
     """
-    return '<Response><Message>Hi!</Message></Response>'
+    resp = MessagingResponse()
+    resp.message("")  # creates an empty <Message />
+    return HttpResponse(str(resp), content_type="application/xml")
 
 
 class StrView(View):
@@ -61,10 +64,14 @@ class StrView(View):
         return super(StrView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        return '<Response><Message>Hi!</Message></Response>'
+        resp = MessagingResponse()
+        resp.message("")  # empty
+        return HttpResponse(str(resp), content_type="application/xml")
 
     def post(self, request):
-        return '<Response><Message>Hi!</Message></Response>'
+        resp = MessagingResponse()
+        resp.message("")  # empty
+        return HttpResponse(str(resp), content_type="application/xml")
 
 
 @twilio_view
@@ -72,7 +79,10 @@ def bytes_view(request):
     """
     A simple test view that returns ASCII bytes.
     """
-    return b'<Response><Message>Hi!</Message></Response>'
+    return HttpResponse(
+        b'<Response><Message>Hi!</Message></Response>',
+        content_type='text/xml'
+    )
 
 
 class BytesView(View):
@@ -82,10 +92,16 @@ class BytesView(View):
         return super(BytesView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        return b'<Response><Message>Hi!</Message></Response>'
+        return HttpResponse(
+            b'<Response><Message>Hi!</Message></Response>',
+            content_type='text/xml'
+        )
 
     def post(self, request):
-        return b'<Response><Message>Hi!</Message></Response>'
+        return HttpResponse(
+            b'<Response><Message>Hi!</Message></Response>',
+            content_type='text/xml'
+        )
 
 
 @twilio_view
@@ -95,7 +111,7 @@ def verb_view(request):
     """
     r = VoiceResponse()
     r.reject()
-    return r
+    return HttpResponse(str(r), content_type="text/xml")
 
 
 class VerbView(View):
@@ -107,12 +123,12 @@ class VerbView(View):
     def get(self, request):
         r = VoiceResponse()
         r.reject()
-        return r
+        return HttpResponse(str(r), content_type="text/xml")
 
     def post(self, request):
         r = VoiceResponse()
         r.reject()
-        return r
+        return HttpResponse(str(r), content_type="text/xml")
 
 
 class SayTestCase(TestCase):

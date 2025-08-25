@@ -2,7 +2,7 @@
 from django.test import TestCase
 from django.conf import settings
 
-from .utils import TwilioRequestFactory
+from test_project.test_app.test_utils import TwilioRequestFactory
 
 from django_twilio.request import decompose, TwilioRequest
 from django_twilio.exceptions import NotDjangoRequestException
